@@ -37,7 +37,7 @@ var scrapeIngredients = () => {
 
 // Message Listener function
 chrome.runtime.onMessage.addListener((request, sender, response) => {
-  
+  console.log('REQUEST', request);
   // If message is injectApp
   if(request.getList) {
     // Inject our app to DOM and send response
@@ -45,6 +45,5 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
     response({
       ingredArr: result
     });
-    window.alert('INGREDIENTS ADDED!', result);
   }
 });

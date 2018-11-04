@@ -12,7 +12,7 @@ window.onload = () => {
         tabs[0].id,
         { getList: true },
         (response) => {
-          console.log(response);
+          console.log('MESSAGE SENT', response);
         }
       );
     });
