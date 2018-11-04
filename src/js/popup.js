@@ -13,7 +13,9 @@ window.onload = () => {
       chrome.tabs.sendMessage(
         tabs[0].id,
         { injectApp: true },
-        // response => window.close()
+        (response) => {
+          console.log(response);
+        }
       );
     });
   };

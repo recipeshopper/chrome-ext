@@ -1,36 +1,50 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+var parser = require('ingredients-parser');
 
-import Button from './components/Button';
-
-class App extends React.Component {
-  render() {
-    return (
-      <div> 
-        RECIPE ADDED! 
-        <Button />
-      </div>
-    )
+var getIngredients = () => {
+  let ingrArr = [];
+  let temp = document.getElementsByClassName("recipe-ingred_txt");
+  for (let i=0; i< temp.length; i++) {
+    if (temp[i].getAttribute("itemprop") === "recipeIngredient") {
+      ingrArr.push(temp[i].textContent);
+    }
   }
+  return ingrArr;
+}
+
+var stringToNum = (string) => {
+  return string.split(' ').reduce((accum, ele)=>{
+    return accum + eval(ele);
+  }, 0)
+}
+
+var ingredParser = (ingrArr) => {
+  let ingrObj = [];
+  ingrArr.forEach((ele)=>{
+    let tempObj = parser.parse(ele);
+    tempObj.amount = stringToNum(tempObj.amount);
+    ingrObj.push(tempObj);
+  })
+  return ingrObj;
+}
+
+var scrapeIngredients = () => {
+  let ingrArr = getIngredients();
+  let result = ingredParser(ingrArr);
+  return result;
 }
 
 // Message Listener function
 chrome.runtime.onMessage.addListener((request, sender, response) => {
+  
   // If message is injectApp
   if(request.injectApp) {
     // Inject our app to DOM and send response
-    injectApp();
+    let result = scrapeIngredients();
     response({
-      body: document.all[0].outerHTML,
+      ingredArr: result
     });
+    window.alert('INGREDIENTS ADDED!', result);
   }
 });
-
-function injectApp() {
-  console.log(document.all[0].outerHTML);
-  window.alert('RECIPE ADDED!');
-  // const newDiv = document.createElement("div");
-  // newDiv.setAttribute("id", "chromeExtensionReactApp");
-  // document.body.appendChild(newDiv);
-  // ReactDOM.render(<App />, newDiv);
-}
