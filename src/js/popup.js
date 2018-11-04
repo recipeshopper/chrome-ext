@@ -7,12 +7,10 @@ window.onload = () => {
       active: true,
       currentWindow: true,
     }, (tabs) => {
-      console.log('TABS', tabs[0].url);
-      console.log('TABS', tabs);
       // Send message to script file
       chrome.tabs.sendMessage(
         tabs[0].id,
-        { injectApp: true },
+        { getList: true },
         (response) => {
           console.log(response);
         }
