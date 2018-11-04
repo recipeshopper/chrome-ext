@@ -21,12 +21,13 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
     // Inject our app to DOM and send response
     injectApp();
     response({
-      startedExtension: true,
+      body: document.all[0].outerHTML,
     });
   }
 });
 
 function injectApp() {
+  console.log(document.all[0].outerHTML);
   window.alert('RECIPE ADDED!');
   // const newDiv = document.createElement("div");
   // newDiv.setAttribute("id", "chromeExtensionReactApp");
