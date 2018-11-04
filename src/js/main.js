@@ -23,7 +23,11 @@ var ingredParser = (ingrArr) => {
   let ingrObj = [];
   ingrArr.forEach((ele)=>{
     let tempObj = parser.parse(ele);
-    tempObj.amount = stringToNum(tempObj.amount);
+    if (tempObj.amount) {
+      tempObj.amount = stringToNum(tempObj.amount);
+    } else {
+      tempObj.amount = 0;
+    }
     ingrObj.push(tempObj);
   })
   return ingrObj;
@@ -32,12 +36,12 @@ var ingredParser = (ingrArr) => {
 var scrapeIngredients = () => {
   let ingrArr = getIngredients();
   let result = ingredParser(ingrArr);
+  console.log('RESULT', result);
   return result;
 }
 
 // Message Listener function
 chrome.runtime.onMessage.addListener((request, sender, response) => {
-  console.log('REQUEST', request);
   // If message is injectApp
   if(request.getList) {
     // Inject our app to DOM and send response
