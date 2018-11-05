@@ -1,5 +1,6 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+// import React from 'react';
+// import ReactDOM from 'react-dom';
+
 var parser = require('ingredients-parser');
 
 var getIngredients = () => {
@@ -36,7 +37,6 @@ var ingredParser = (ingrArr) => {
 var scrapeIngredients = () => {
   let ingrArr = getIngredients();
   let result = ingredParser(ingrArr);
-  console.log('RESULT', result);
   return result;
 }
 
